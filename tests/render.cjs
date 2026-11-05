@@ -24,7 +24,9 @@ function runExample(name){
   go('#/methods');assert.equal(nodes.get('paperCount').textContent,'4 篇');
   go('#/group/stationary/cooling-plate/channels');assert.equal(nodes.get('paperCount').textContent,'2 篇');
   nodes.get('navObjects').onclick();assert.equal(nodes.get('navObjects').href,'#/objects/stationary/cooling-plate');
-  nodes.get('search').value='synthetic:2';nodes.get('search').oninput();assert.equal(nodes.get('paperCount').textContent,'1 篇','global search crosses selected branch');
+  nodes.get('localSearch').value='synthetic:2';nodes.get('localSearch').oninput();assert.match(nodes.get('paperCount').textContent,/^0 篇/,'local search stays inside the selected branch');
+  nodes.get('localSearch').value='';nodes.get('localSearch').oninput();
+  nodes.get('search').value='synthetic:2';nodes.get('search').oninput();assert.match(nodes.get('paperCount').textContent,/^1 篇/,'global search crosses selected branch');
   nodes.get('clearSearch').onclick();assert.equal(nodes.get('paperCount').textContent,'2 篇');
   assert.equal(nodes.get('filterImplField').hidden,true);assert.equal(nodes.get('filterTrainField').hidden,true,'irrelevant model filters are hidden for this domain');
   assert.equal(run('chartYear(PAPERS[0])'),2024);assert.equal(run('chartYear(PAPERS[1])'),2025);

@@ -11,6 +11,10 @@ Python 3.10+，无第三方运行依赖；Node.js只用于仓库自检。HTML内
 | analyses.json | 按方法组ID索引的精读分析；尚未精读时为 `{}` |
 | state.json | 当前阶段、已确认的决定、选定分支；继续时先读 |
 | search-log.json | 查询、来源、年份/轨道、分页与访问缺口 |
+| retrieval-plan.json | 约定的来源—年份—轨道与主题查询单元 |
+| recall.jsonl / screening.jsonl | 所有召回项及其逐篇处置、输入哈希、分类依据 |
+| completion.json | audit/deliver 重算的完成度报告；不证明语义正确 |
+| taxonomy-proposal.json | 可选：未确认的分类树、唯一建议分配与父组参考；只影响显示投影，不覆盖原文件 |
 | pdfs/ | 可选本地全文；不默认放入Git仓库或分发 |
 
 ## project.json
@@ -31,6 +35,31 @@ Python 3.10+，无第三方运行依赖；Node.js只用于仓库自检。HTML内
 ```
 
 以上是结构示例，不是真实来源推荐。分类树深度任意，每个兄弟节点ID唯一；论文路径必须走到一个叶节点。前三层分别为场景/对象/方法；必要的更多细分位于其后。不靠节点名称推断机制。`filter_fields` 控制适用的独立筛选：模型领域可设为 `["impl","training"]`，非模型领域按需启用或留空，不显示无意义的训练/实现筛选。新建项目默认留空。
+
+可选 `sources[].group` 用于起点按领域分组，未设时归“当前来源”；不固定某领域来源名单。可选 `statistics` 控制增长区：
+
+```json
+{"annual_trend":"disabled","reason":"来源/年份筛选深度不齐，暂不画年度图或比较增幅。"}
+```
+
+annual_trend 可为 disabled（保留两池卡及理由）、descriptive（默认：只画库内年度分布，无增幅列）、comparable（两图同尺度并比较最近两完整年，需给出覆盖可比的 reason）。统计配置不改变论文时间或范围。
+
+## taxonomy-proposal.json
+
+```json
+{
+  "status":"pending_user_confirmation",
+  "label":"对象与方法分组提案 · 待确认",
+  "basis":"依据已读摘要和逐篇分类依据，正文可能修订。",
+  "taxonomy":[{"id":"scene-a","label":"场景A","children":[{"id":"object-a","label":"对象A","definition":"直接改变的对象与边界","children":[{"id":"method-a","label":"方法A"}]}]}],
+  "assignments":[{"paper_id":"existing-paper-id","path":["scene-a","object-a","method-a"]}],
+  "reference_ids":[]
+}
+```
+
+taxonomy 是完整预览树，含未细分的其他已确认场景。assignments 中论文ID唯一，路径到预览叶节点，且不得改变已有主场景；未重新分配的论文沿用原路径。新树中的内部父节点仅可保留明确列入 reference_ids 的评测/建模参考，不能漏分方法论文；参考与方法分配互斥。构建器只生成内存中的显示投影，保留原文件与 confirmed_path；不会把提案自动标成已确认。人的确认后，由AI核对并迁移到 project.taxonomy 与 papers.path，再撤下已应用提案。
+
+存在 coverage.json 时，起点的说明折叠区可呈现来源、数量和覆盖限制；项目已有 CSV/README/提案文件自动作为下载入口。它们不新增主导航。
 
 ## papers.json
 
@@ -79,9 +108,10 @@ Python 3.10+，无第三方运行依赖；Node.js只用于仓库自检。HTML内
 python3 scripts/survey.py init /path/to/project --title "研究调研" --scope "本次范围" --start-year 2024 --cutoff 2026-11-05
 python3 scripts/survey.py dedupe /path/to/raw.json --output /path/to/merged.json --log /path/to/duplicates.json
 python3 scripts/survey.py validate /path/to/project
-python3 scripts/survey.py build /path/to/project
+python3 scripts/survey.py audit /path/to/project --require-complete
+python3 scripts/survey.py deliver /path/to/project
 ```
 
 替换路径与日期。dedupe不覆盖输入，只合并强标识或完整标准化题名；正式版本优先，冲突保留日志。检查冲突后再替换canonical papers.json；不做模糊题名自动合并。原始元数据保留在项目后台。
 
-build默认写项目survey.html，也可用--output指定。提交Git前检查所选文件，不默认提交项目数据、PDF、缓存或凭据。
+deliver 默认写项目 survey.html，也可用 --output 指定；未完成时拒绝完整交付，明确有限交付使用 --partial-reason。build 仅用于预览，仍标明未完成/未核验。检索单元、逐篇记录和迁移规则见 [completion.md](completion.md)。提交Git前检查所选文件，不默认提交项目数据、PDF、缓存或凭据。

@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import date
 import hashlib
 import html
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -13,6 +14,12 @@ import unicodedata
 from urllib.parse import urlparse
 
 SKILL = Path(__file__).resolve().parents[1]
+
+def completion_report(project, cfg=None, papers=None):
+    spec = importlib.util.spec_from_file_location('survey_completion', SKILL/'scripts/completion.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.audit(project, cfg, papers)
 
 def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8'))
@@ -48,6 +55,67 @@ def taxonomy_paths(nodes, prefix=()):
         paths.update(descendants)
     return paths
 
+def proposal_errors(project, cfg, papers):
+    """Preview classifications without treating a proposal as a user decision."""
+    file = project / 'taxonomy-proposal.json'
+    if not file.exists():
+        return []
+    errors = []
+    try:
+        proposal = read(file)
+        if proposal.get('status') != 'pending_user_confirmation':
+            errors.append('taxonomy proposal must be pending; confirmed classifications belong in project/papers')
+        paths = taxonomy_paths(proposal['taxonomy'])
+        known = {p['id']: p for p in papers}
+        assigned = {}
+        for row in proposal['assignments']:
+            pid, path = row['paper_id'], tuple(row['path'])
+            if pid not in known or pid in assigned:
+                errors.append('unknown/duplicate proposal assignment: ' + pid)
+            if path not in paths or paths[path].get('children'):
+                errors.append('proposal assignment must use a leaf: ' + pid)
+            if pid in known and path[:1] != tuple(known[pid]['path'][:1]):
+                errors.append('proposal must preserve the confirmed main scene: ' + pid)
+            assigned[pid] = path
+        references = proposal.get('reference_ids', [])
+        if len(set(references)) != len(references) or not set(references) <= set(known):
+            errors.append('unknown/duplicate proposal reference IDs')
+        if set(references) & set(assigned):
+            errors.append('a proposal reference cannot also be a method assignment')
+        for pid in set(references) & set(known):
+            if known[pid].get('study_type') != 'evaluation':
+                errors.append('only evaluation/modeling papers may remain as proposal references: ' + pid)
+        for p in papers:
+            path = assigned.get(p['id'], tuple(p['path']))
+            if path not in paths:
+                errors.append('proposal loses an existing path: ' + p['id'])
+            elif paths[path].get('children') and p['id'] not in references:
+                errors.append('proposal leaves an unclassified method at a parent: ' + p['id'])
+        if not proposal.get('label') or not proposal.get('basis'):
+            errors.append('proposal needs a visible label and classification basis')
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append('taxonomy proposal: ' + str(exc))
+    return errors
+
+def view_data(project, cfg, papers):
+    """Construct a display projection; never write over confirmed source data."""
+    data = {'config': deepcopy(cfg), 'papers': deepcopy(papers)}
+    proposal_file = project / 'taxonomy-proposal.json'
+    if proposal_file.exists():
+        proposal = read(proposal_file)
+        data['proposal'] = {k: proposal[k] for k in ('status', 'label', 'basis')}
+        data['config']['taxonomy'] = proposal['taxonomy']
+        assignments = {a['paper_id']: a['path'] for a in proposal['assignments']}
+        for p in data['papers']:
+            if p['id'] in assignments:
+                p['confirmed_path'] = p['path']
+                p['path'] = assignments[p['id']]
+    if (project / 'coverage.json').exists():
+        data['coverage'] = read(project / 'coverage.json')
+    candidates = [('papers.csv', '论文 CSV'), ('coverage.csv', '覆盖 CSV'), ('README.md', '范围与阅读说明'), ('taxonomy-proposal.json', '分类提案 JSON'), ('文本分组提案.md', '文本分组提案')]
+    data['downloads'] = [{'path': path, 'label': label} for path, label in candidates if (project / path).is_file()]
+    return data
+
 def validate(project):
     cfg = read(project / 'project.json')
     papers = read(project / 'papers.json')
@@ -64,6 +132,10 @@ def validate(project):
     except (KeyError, ValueError, TypeError) as exc:
         return [f'project configuration: {exc}']
     require(bool(cfg.get('scope')), 'scope is required')
+    statistics = cfg.get('statistics', {})
+    require(statistics.get('annual_trend', 'descriptive') in ('disabled', 'descriptive', 'comparable'), 'annual trend policy')
+    if statistics.get('annual_trend') in ('disabled', 'comparable'):
+        require(bool(statistics.get('reason')), 'annual trend policy needs a reason')
     sources = cfg.get('sources', [])
     source_ids = {s['id'] for s in sources}
     require(len(source_ids) == len(sources), 'duplicate source IDs')
@@ -171,6 +243,7 @@ def validate(project):
             seen.add(triple)
             require(bool(edge.get('locator')) and safe_url(edge.get('url')), 'graph evidence: ' + str(triple))
         require(bool(lineage.get('coverage_note')), 'lineage coverage statement: ' + key)
+    errors.extend(proposal_errors(project, cfg, papers))
     return errors
 
 def initialize(path, title, scope, start_year, cutoff):
@@ -178,21 +251,39 @@ def initialize(path, title, scope, start_year, cutoff):
         raise ValueError('refusing to initialize a nonempty project')
     path.mkdir(parents=True, exist_ok=True)
     date.fromisoformat(cutoff)
-    write(path / 'project.json', {'schema_version': 1, 'title': title, 'scope': scope, 'start_year': start_year, 'cutoff': cutoff, 'sources': [], 'taxonomy': [], 'filter_fields': [], 'limitations': [], 'level_labels': ['场景', '对象', '方法', '细分']})
+    write(path / 'project.json', {'schema_version': 1, 'title': title, 'scope': scope, 'start_year': start_year, 'cutoff': cutoff, 'sources': [], 'taxonomy': [], 'filter_fields': [], 'limitations': [], 'level_labels': ['场景', '对象', '方法', '细分'], 'collection': {'mode': 'full_scope', 'rules_version': 'v1', 'include_preprints': False, 'required_attributes': []}})
     write(path / 'papers.json', [])
     write(path / 'analyses.json', {})
     write(path / 'search-log.json', [])
+    write(path / 'retrieval-plan.json', [])
+    (path / 'recall.jsonl').write_text('', encoding='utf-8')
+    (path / 'screening.jsonl').write_text('', encoding='utf-8')
     write(path / 'state.json', {'phase': 'scope', 'confirmed': {'scope': False, 'sources': False, 'taxonomy': False}, 'selected_path': [], 'decisions': []})
 
-def build(project, output):
+def build(project, output, completion=None):
     errors = validate(project)
     if errors:
         raise ValueError('\n'.join(errors))
     cfg, papers, analyses = read(project / 'project.json'), read(project / 'papers.json'), read(project / 'analyses.json')
+    report = completion if completion is not None else completion_report(project, cfg, papers)
+    write(project/'completion.json', report)
+    cfg['limitations'] = [report['label'] + '；这不证明领域检索穷尽或 AI 语义判断正确。', *cfg.get('limitations', [])]
+    if report.get('partial_reason'):
+        cfg['limitations'].insert(1, '本次有限交付原因：' + report['partial_reason'])
+    if report['status'] != 'complete':
+        cfg['title'] += ' · ' + ('建库完成度未核验' if report['status'] == 'untracked' else '阶段性初筛')
+    if cfg.get('renderer') == 'reference-original':
+        from reference_renderer import render
+        result, evidence = render(project, cfg, papers, analyses)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(result, encoding='utf-8')
+        write(project/'render-provenance.json', evidence)
+        print(f'Built {output} from complete reference HTML: {len(papers)} papers')
+        return
     assets = SKILL / 'assets'
     template = (assets / 'survey.html').read_text()
     css = '\n'.join((assets / f).read_text() for f in ('survey.css', 'method-analysis.css'))
-    base = (assets / 'helpers.js').read_text().replace('__SURVEY_DATA__', embed({'config': cfg, 'papers': papers}))
+    base = (assets / 'helpers.js').read_text().replace('__SURVEY_DATA__', embed(view_data(project, cfg, papers)))
     method_js = (assets / 'method-analysis.js').read_text().replace('__METHOD_ANALYSES__', embed(analyses))
     js = '\n'.join([base, (assets / 'method-diagrams.js').read_text(), method_js, (assets / 'survey.js').read_text()])
     # A single substitution pass prevents placeholder-like paper text from becoming code.
@@ -201,6 +292,18 @@ def build(project, output):
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(result, encoding='utf-8')
     print(f'Built {output}: {len(papers)} papers; {len(analyses)} reading groups')
+
+def deliver(project, output, partial_reason=None):
+    errors = validate(project)
+    if errors:
+        raise ValueError('\n'.join(errors))
+    report = completion_report(project)
+    if report['status'] != 'complete' and not (partial_reason or '').strip():
+        write(project/'completion.json', report)
+        raise ValueError('Collection is not complete: inspect completion.json, finish the queue or use --partial-reason for an explicitly limited delivery')
+    if report['status'] != 'complete':
+        report['partial_reason'] = partial_reason.strip()
+    build(project, output, completion=report)
 
 def dedupe(papers):
     parent = list(range(len(papers)))
@@ -253,9 +356,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
     p = sub.add_parser('init');p.add_argument('project', type=Path);p.add_argument('--title', required=True);p.add_argument('--scope', required=True);p.add_argument('--start-year', type=int, required=True);p.add_argument('--cutoff', required=True)
-    for name in ('validate', 'build'):
+    for name in ('validate', 'build', 'audit', 'deliver'):
         p = sub.add_parser(name);p.add_argument('project', type=Path)
-        if name == 'build':p.add_argument('--output', type=Path)
+        if name in ('build', 'deliver'):p.add_argument('--output', type=Path)
+        if name == 'audit':p.add_argument('--require-complete', action='store_true')
+        if name == 'deliver':p.add_argument('--partial-reason')
     p = sub.add_parser('dedupe');p.add_argument('input', type=Path);p.add_argument('--output', type=Path, required=True);p.add_argument('--log', type=Path, required=True)
     args = parser.parse_args()
     try:
@@ -267,6 +372,14 @@ def main():
             print('Structure, scope, identity, dates and evidence bindings passed. Semantic correctness is not proven.')
         elif args.command == 'build':
             build(args.project, args.output or args.project / 'survey.html')
+        elif args.command == 'audit':
+            report = completion_report(args.project)
+            write(args.project/'completion.json', report)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            if args.require_complete and report['status'] != 'complete':
+                raise ValueError('Collection completion check did not pass')
+        elif args.command == 'deliver':
+            deliver(args.project, args.output or args.project/'survey.html', args.partial_reason)
         else:
             if args.input.resolve() in (args.output.resolve(), args.log.resolve()) or args.output.resolve() == args.log.resolve():
                 raise ValueError('dedupe input, output and log must be distinct')
