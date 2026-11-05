@@ -1,0 +1,4 @@
+interface:
+  display_name: "文献调研"
+  short_description: "从研究范围收敛到场景、对象与方法，精读论文并生成有出处的交互 HTML"
+  default_prompt: "Use $literature-survey to survey my research area, narrow scenes, objects and methods, and deliver a source-backed HTML comparison."

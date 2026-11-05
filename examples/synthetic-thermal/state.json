@@ -1,0 +1,10 @@
+{
+  "phase": "taxonomy",
+  "confirmed": {
+    "scope": true,
+    "sources": true,
+    "taxonomy": true
+  },
+  "selected_path": [],
+  "decisions": []
+}

@@ -1,0 +1,96 @@
+.analysisEntry{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid var(--line);border-radius:10px;padding:15px 18px;margin:20px 0;background:var(--s1);font-size:13px}
+.analysisEntry[hidden],#pageMethodAnalysis[hidden]{display:none}
+.analysisEntry span{color:var(--t3);font-size:12px}
+#pageMethodAnalysis .pageHeading{margin-top:26px}
+.analysisSections{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:24px;font-size:13px}
+.analysisSections button{border:0;padding:0;background:none;color:var(--acc);font:inherit}
+.analysisSections a,.analysisSources a,.analysisPaper a,.analysisNode a{color:var(--acc);text-decoration:none}
+.analysisTable{margin-top:20px}
+.analysisTable table{width:100%;min-width:1060px;table-layout:fixed}
+.analysisTable th:first-child{width:13%}
+.analysisTable th:nth-child(2){width:19%}
+.analysisTable td,.analysisTable th{white-space:normal;vertical-align:top;text-align:left;font-size:12px;line-height:1.85}
+.analysisTable strong{display:block;color:var(--t1);font-weight:550;margin-bottom:6px}
+.analysisTable button{padding:0;border:0;background:none;color:var(--acc);font-size:13px;text-align:left}
+.analysisTable small{display:block;color:var(--t3);line-height:1.6;margin-top:7px}
+.analysisSupplement{border-bottom:1px solid var(--line);padding:18px 0;font-size:13px;line-height:1.85;color:var(--t2)}
+.analysisSupplement>summary{font-size:13px;color:var(--t1)}
+.analysisSupplement .caption{margin:16px 0 10px}
+.conditionComparison table{min-width:1080px}
+.analysisSupplement th:first-child,.analysisClaimTable th:first-child{width:14%}
+.analysisClaimTable table{min-width:850px}
+.analysisLogic{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px 18px;margin:18px 0;font-size:13px;line-height:1.85}
+.analysisLogic dt{color:var(--t3);font-size:12px}
+.analysisLogic dd{margin:0;color:var(--t2)}
+.comparisonFigure{margin:22px 0 28px!important;padding:0;border:0}
+.comparisonFigure figcaption{font-size:12px;line-height:1.85;color:var(--t2);margin-top:12px}
+.teachingDiagram{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--s1)}
+.teachingDiagram svg{display:block;width:100%;min-width:760px;height:auto}
+.methodComparison .teachingDiagram{margin-top:14px}
+.methodComparison h4{margin-top:0}
+.diagramTeachingNote{font-size:11px!important;color:var(--t3);line-height:1.8}
+.analysisPaper{border-top:1px solid var(--line);padding:20px 0}
+.analysisPaper:first-child{border-top:0}
+.analysisPaper>summary{display:flex;align-items:baseline;justify-content:space-between;gap:16px;font-size:16px;font-weight:550}
+.analysisPaper>summary>span:last-child{font-size:12px;font-weight:400;color:var(--t3)}
+.analysisPaper .readingBody{padding:18px 0 6px;font-size:13px;line-height:1.9;color:var(--t2)}
+.analysisPaper h4{font-size:13px;font-weight:600;color:var(--t1);margin:22px 0 8px}
+.analysisPaper p{margin:7px 0}
+.analysisEvidence{display:block;font-size:11px;color:var(--t3);margin-top:5px}
+.analysisConditions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;margin:18px 0}
+.analysisConditions>div{border-left:2px solid var(--line);padding-left:12px}
+.analysisConditions dt{font-size:11px;color:var(--t3);margin-bottom:4px}
+.analysisConditions dd{margin:0;font-size:13px;color:var(--t2)}
+.analysisResults{overflow-x:auto;margin:12px 0}
+.analysisResults table{width:100%;min-width:620px}
+.analysisResults td,.analysisResults th{font-size:12px;white-space:normal;line-height:1.8;vertical-align:top;text-align:left}
+.analysisLinks{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px}
+.analysisGraph{margin-top:18px;overflow-x:auto}
+.analysisGraph svg{width:100%;min-width:640px;display:block;height:auto}
+.analysisGraph .citationEdge{stroke:var(--t3);stroke-width:1.3;fill:none;opacity:.42}
+.analysisGraph .citationEdge.isRelated{stroke:var(--acc);stroke-width:2;opacity:1}
+.analysisGraph .citationEdge.kind-citation{stroke-dasharray:6 4}
+.analysisGraph .citationEdge.kind-combination{stroke-dasharray:2 4}
+.analysisGraph .columnTitle{fill:var(--t3);font:12px system-ui,sans-serif;text-anchor:middle}
+.analysisGraph .emptyColumn{fill:var(--t3);font:11px system-ui,sans-serif;text-anchor:middle}
+.lineageControls{display:flex;gap:24px;flex-wrap:wrap;margin:20px 0 14px;font-size:12px;color:var(--t3)}
+.lineageControls label{display:flex;align-items:center;gap:10px}
+.lineageControls select{font:inherit;min-width:160px}
+.analysisGraph .graphNode{cursor:pointer;outline:none}
+.analysisGraph .graphNode rect{fill:var(--s1);stroke:var(--line);stroke-width:1.2}
+.analysisGraph .graphNode text{fill:var(--t1);font:550 14px system-ui,sans-serif;text-anchor:middle}
+.analysisGraph .graphNode .version{fill:var(--t3);font-size:10px;font-weight:400}
+.analysisGraph .graphNode[aria-pressed="true"] rect,.analysisGraph .graphNode:focus-visible rect{stroke:var(--acc);stroke-width:2}
+.analysisNode{font-size:13px;line-height:1.9;padding:22px 0;color:var(--t2)}
+.analysisNode h4{font-size:16px;color:var(--t1);margin:0 0 8px}
+.analysisNode .citationList{margin-top:16px}
+.analysisNode .citationItem{padding:12px 0;border-top:1px solid var(--line)}
+.analysisNode .citationItem p{margin:5px 0}
+.analysisSources{margin:35px 0 28px;border-top:1px solid var(--line);padding-top:20px;font-size:12px;color:var(--t3);line-height:1.85}
+.analysisSources p{margin:12px 0}
+@media(max-width:650px){.analysisConditions{grid-template-columns:1fr}.analysisPaper>summary{align-items:flex-start;flex-direction:column;gap:7px}.analysisEntry{align-items:flex-start;flex-direction:column;gap:6px}}
+
+/* Compare all methods at once. The shared input is drawn once above this grid. */
+.methodOverview{margin-top:32px}
+.methodOverview>h4{font-size:15px;color:var(--t1);font-weight:550;margin:0 0 12px}
+.methodOverview .overviewInput{margin:0 0 20px!important}
+.methodOverviewGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.methodOverviewCard{min-width:0;border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--s1)}
+.methodOverviewCard.isBackground{border-style:dashed}
+.methodOverviewHeading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.methodOverviewHeading button,.overviewReturn{border:0;padding:0;background:none;color:var(--acc);font:inherit;cursor:pointer;text-align:left}
+.methodOverviewHeading button{font-size:15px;font-weight:550}
+.methodOverviewHeading span{font-size:11px;color:var(--t3)}
+.methodOverviewCard .comparisonFigure{margin:0!important}
+.methodOverviewCard .teachingDiagram{border:0;background:transparent}
+.methodOverviewCard .teachingDiagram svg{min-width:0}
+.methodOverviewCard figcaption{font-size:11px;line-height:1.8;min-height:3.6em}
+.overviewNotes{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;font-size:12px;line-height:1.85;color:var(--t2)}
+.overviewNotes>summary{font-size:12px;color:var(--t3)}
+.overviewNotes ol{padding-left:20px}
+.overviewNotes li{margin:10px 0}
+.overviewConditions{margin:14px 0}
+.overviewConditions dt{font-size:11px;color:var(--t3);margin-top:12px}
+.overviewConditions dd{margin:3px 0 0}
+.overviewReturn{font-size:12px;margin:6px 0 12px}
+@media(max-width:800px){.methodOverviewGrid{grid-template-columns:1fr}.methodOverviewCard figcaption{min-height:0}}

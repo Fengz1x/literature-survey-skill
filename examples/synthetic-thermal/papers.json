@@ -1,0 +1,78 @@
+[
+  {
+    "id": "synthetic:0",
+    "title": "合成测试记录 0（非真实论文）",
+    "url": "https://example.org/paper/0",
+    "pool": "core",
+    "source_id": "demo",
+    "publication_date": "2024",
+    "first_public_date": "2024",
+    "date_source": "synthetic fixture",
+    "path": [
+      "stationary",
+      "cooling-plate",
+      "channels"
+    ],
+    "impl": null,
+    "training": null,
+    "classification_basis": "教学构造；不作科学主张。",
+    "is_synthetic": true
+  },
+  {
+    "id": "synthetic:1",
+    "title": "合成测试记录 1（非真实论文）",
+    "url": "https://example.org/paper/1",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2025",
+    "date_source": "synthetic fixture",
+    "path": [
+      "stationary",
+      "control",
+      "feedback"
+    ],
+    "impl": null,
+    "training": null,
+    "classification_basis": "教学构造；不作科学主张。",
+    "is_synthetic": true
+  },
+  {
+    "id": "synthetic:2",
+    "title": "合成测试记录 2（非真实论文）",
+    "url": "https://example.org/paper/2",
+    "pool": "core",
+    "source_id": "demo",
+    "publication_date": "2026",
+    "first_public_date": "2026",
+    "date_source": "synthetic fixture",
+    "path": [
+      "vehicle",
+      "cooling-plate",
+      "channels"
+    ],
+    "impl": null,
+    "training": null,
+    "classification_basis": "教学构造；不作科学主张。",
+    "is_synthetic": true
+  },
+  {
+    "id": "synthetic:3",
+    "title": "合成测试记录 3（非真实论文）",
+    "url": "https://example.org/paper/3",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2026",
+    "date_source": "synthetic fixture",
+    "path": [
+      "stationary",
+      "cooling-plate",
+      "channels"
+    ],
+    "impl": null,
+    "training": null,
+    "classification_basis": "教学构造；不作科学主张。",
+    "is_synthetic": true
+  }
+]

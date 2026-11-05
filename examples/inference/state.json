@@ -1,0 +1,14 @@
+{
+  "phase": "reading",
+  "confirmed": {
+    "scope": true,
+    "sources": true,
+    "taxonomy": true
+  },
+  "selected_path": [],
+  "decisions": [
+    {
+      "event": "限定样例导出；不代表完成领域检索。"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "title": "文献调研 · 推理优化阅读样例",
+  "scope": "自回归 LLM 与图像 VLM 推理优化；仅含两个已读分组的11篇方法与架构参考。",
+  "start_year": 2024,
+  "cutoff": "2026-11-05",
+  "core_clock_label": "发表／录用年（年度精度）",
+  "sources": [
+    {
+      "id": "iclr",
+      "label": "ICLR",
+      "url": "https://iclr.cc/",
+      "tracks": "主会论文；样例只含选定方法组",
+      "reason": "说明目标来源字段；不是完整检索或跨领域固定推荐名单。"
+    },
+    {
+      "id": "icml",
+      "label": "ICML",
+      "url": "https://icml.cc/",
+      "tracks": "主会论文；样例只含选定方法组",
+      "reason": "说明目标来源字段；不是完整检索或跨领域固定推荐名单。"
+    },
+    {
+      "id": "cvpr",
+      "label": "CVPR",
+      "url": "https://openaccess.thecvf.com/",
+      "tracks": "主会论文；样例只含选定方法组",
+      "reason": "说明目标来源字段；不是完整检索或跨领域固定推荐名单。"
+    },
+    {
+      "id": "neurips",
+      "label": "NeurIPS",
+      "url": "https://neurips.cc/",
+      "tracks": "主会论文；样例只含选定方法组",
+      "reason": "说明目标来源字段；不是完整检索或跨领域固定推荐名单。"
+    }
+  ],
+  "taxonomy": [
+    {
+      "id": "text-llm",
+      "label": "文本 LLM 推理",
+      "children": [
+        {
+          "id": "experts",
+          "label": "MoE 专家",
+          "children": [
+            {
+              "id": "skip",
+              "label": "跳过专家",
+              "children": [
+                {
+                  "id": "EX-BATCH",
+                  "label": "批量解码：减少批内激活专家"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "image-vlm",
+      "label": "图像 VLM 推理",
+      "children": [
+        {
+          "id": "experts",
+          "label": "MoE 专家",
+          "children": [
+            {
+              "id": "skip",
+              "label": "跳过专家",
+              "children": [
+                {
+                  "id": "MX",
+                  "label": "多模态专家跳过"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "weights",
+          "label": "模型结构",
+          "children": [
+            {
+              "id": "redesign",
+              "label": "高效与混合模型结构",
+              "children": [
+                {
+                  "id": "MA",
+                  "label": "稀疏架构与训练"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "样例共11篇，不用于推断领域存量或增长。KAB仅摘要，CuMo为架构先例。"
+  ],
+  "level_labels": [
+    "场景",
+    "对象",
+    "方法",
+    "细分"
+  ],
+  "filter_fields": [
+    "impl",
+    "training"
+  ]
+}

@@ -1,0 +1,266 @@
+[
+  {
+    "id": "arxiv:2411.08982",
+    "title": "Lynx: Enabling Efficient MoE Inference through Dynamic Batch-Aware Expert Selection",
+    "url": "https://arxiv.org/abs/2411.08982",
+    "abstract": "Selective parameter activation provided by Mixture-of-Expert (MoE) models have made them a popular choice in modern foundational models. However, MoEs face a fundamental tension when employed for serving. Batching, critical for performance in serving, forces the activation of all experts, thereby negating MoEs' benefits and exacerbating memory bandwidth bottlenecks. Existing work on efficient MoE inference are unable to resolve this tension even with extensive workload-specific tuning. We present LYNX, a system that enables efficient MoE inference in a workload-agnostic fashion. LYNX leverages a key property of MoE training: load-balancing losses introduce batch-level expert activation skews and redundancy, which it exploits by remapping low-affinity token-to-expert assignments within each batch using a novel AffinityBinning technique that reduces the total experts invoked. Our evaluation of LYNX on four state-of-the-art model families across nine benchmarks shows that it achieves up to 1.30x improvement in throughput while maintaining accuracy loss of less than 1% points across tasks. Further, LYNX is complementary to existing techniques where it additionally boosts their performance by up to 1.38x.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2024-11-13",
+    "date_source": "https://arxiv.org/abs/2411.08982",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "text-llm",
+      "experts",
+      "skip",
+      "EX-BATCH"
+    ],
+    "classification_basis": "v3 的 AffinityBinning 使用 router 相对分数分箱，保护重要映射，再把弱映射集中到较小专家集；沿用 router 信号。",
+    "identifiers": {
+      "arxiv": "2411.08982"
+    }
+  },
+  {
+    "id": "entry:10030ab18c3f714394b06bbd",
+    "title": "SERE: Similarity-based Expert Re-routing for Efficient Batch Decoding in MoE Models",
+    "url": "https://arxiv.org/abs/2602.07616",
+    "abstract": "Mixture-of-Experts (MoE) architectures employ sparse activation to deliver faster training and inference with higher accuracy than dense LLMs. However, in production serving, MoE models require batch inference to optimize hardware efficiency, which may cause excessive expert activation and thus slow the memory-bound decoding stage. To address the fundamental tension between batch decoding and expert sparsity, we present **SERE**, a **S**imilarity-based **E**xpert **R**e-routing method for **E**fficient batch decoding in MoE models. SERE dynamically reduces the number of active experts in an input-aware manner by re-routing tokens from secondary experts to their most similar primary counterparts. It also leverages similarity patterns to identify and preserve critical experts, thereby preventing capability loss. Notably, SERE avoids static expert pruning or merging, instead enabling dynamic expert skipping based on batch-level expert redundancy. Additionally, we provide an efficient custom CUDA kernel for SERE, enabling plug-and-play use in vLLM with only a single-line code change. Extensive experiments on various complex reasoning benchmarks demonstrate that SERE achieves up to $2.0\\times$ speedup with minimal quality loss, providing a practical solution for cost-efficient and latency-sensitive large-scale MoE deployment.",
+    "pool": "core",
+    "source_id": "iclr",
+    "publication_date": "2026",
+    "first_public_date": "2026-02-07",
+    "date_source": "https://openreview.net/forum?id=98IxaUQtMY",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "text-llm",
+      "experts",
+      "skip",
+      "EX-BATCH"
+    ],
+    "classification_basis": "把专家输出相似度用于运行时批内重路由：保留每个token的top-S专家并集，把可替代的次要专家重定向到已保留专家；低相似度则不替换，维持原路由权重。",
+    "identifiers": {
+      "arxiv": "2602.07616"
+    }
+  },
+  {
+    "id": "entry:1bfab62acef0e9abc9abb481",
+    "title": "Opportunistic Expert Activation: Batch-Aware Expert Routing for Faster Decode Without Retraining",
+    "url": "https://proceedings.mlr.press/v306/oncescu26a.html",
+    "abstract": "An increasing number of LLMs employ Mixture-of-Experts (MoE) architectures where the feed-forward layer is replaced by a pool of experts and each token only activates a small subset of them. During autoregressive generation, these models often enter a memory-bound regime even for moderate batch sizes because the average expert load grows more slowly than in an equivalent dense feedforward layer. Consequently, MoE latency is governed by the number of activated experts. We introduce a framework for $\\textbf{dynamically}$ re-routing token-to-expert mapping to lower this number (and thus, the decode latency) while preserving a comparable quality. Our best results use a $\\textbf{batch-aware routing}$ that works by having tokens $\\textbf{piggyback}$ experts that have already been loaded into memory due to being crucial to other tokens within the same batch. At batch size $16$, OEA reduces MoE-layer decode latency by $39\\\\%$ on Qwen3-30B while preserving standard-error-adjusted downstream accuracy, and by $15\\\\%$ on Qwen3-235B with only small overall degradation on the long-generation benchmark suite.",
+    "pool": "core",
+    "source_id": "icml",
+    "publication_date": "2026",
+    "first_public_date": null,
+    "date_source": "https://openreview.net/forum?id=bSLIDztFwx",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "text-llm",
+      "experts",
+      "skip",
+      "EX-BATCH"
+    ],
+    "classification_basis": "每token先执行top-k0形成固定基础集合；之后按原router分数顺序，搭用其他token已经要求的专家，最多补至原k。主方案只需k0一个超参。",
+    "identifiers": {
+      "arxiv": null
+    }
+  },
+  {
+    "id": "arxiv:2602.07265",
+    "title": "XShare: Collaborative in-Batch Expert Sharing for Faster MoE Inference",
+    "url": "https://arxiv.org/abs/2602.07265v1",
+    "abstract": "Mixture-of-Experts (MoE) architectures are increasingly used to efficiently scale large language models. However, in production inference, request batching and speculative decoding significantly amplify expert activation, eroding these efficiency benefits. We address this issue by modeling batch-aware expert selection as a modular optimization problem and designing efficient greedy algorithms for different deployment settings. The proposed method, namely XShare, requires no retraining and dynamically adapts to each batch by maximizing the total gating score of selected experts. It reduces expert activation by up to 30% under standard batching, cuts peak GPU load by up to 3x in expert-parallel deployments, and achieves up to 14% throughput gains in speculative decoding via hierarchical, correlation-aware expert selection even if requests in a batch drawn from heterogeneous datasets.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2026-02-06",
+    "date_source": "https://arxiv.org/abs/2602.07265",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "text-llm",
+      "experts",
+      "skip",
+      "EX-BATCH"
+    ],
+    "classification_basis": "新意主要在聚合与约束粒度，不是提出新的专家重要性信号。",
+    "identifiers": {
+      "arxiv": "2602.07265"
+    }
+  },
+  {
+    "id": "arxiv:2609.36222",
+    "title": "BASE: Batch-Aware Selection of Experts Using Predicted Removal Error for Efficient MoE Decoding",
+    "url": "https://arxiv.org/abs/2609.36222v1",
+    "abstract": "Large language models are increasingly expensive to serve. In large-scale serving systems, autoregressive decoding is often bottlenecked by transferring model weights from accelerator high-bandwidth memory into on-chip SRAM. Mixture-of-experts (MoE) models reduce computation by activating only a small subset of experts per token, but this sparsity does not translate directly to batched decoding. Different requests select different experts; therefore, the combined active set across many concurrent requests can span a substantial fraction of the expert pool and require significantly more expert weights to be transferred. Most expert-reduction techniques make retention decisions independently for each token and therefore do not address this batch-level expansion. More recently, batch-aware methods have attempted to coordinate expert use across concurrent requests and reuse experts already fetched for the batch. Yet their selection criteria are based primarily on router rankings or expert statistics collected during calibration. Consequently, these criteria are not directly tied to the output error caused by dropping an expert, nor do they capture how an expert's contribution changes across tokens at inference time. We instead rank experts according to how much their removal would change the MoE-layer output. To apply this criterion during serving, we train a lightweight linear predictor during calibration that estimates the expert removal cost for each incoming token, and develop custom GPU kernels for cost prediction and expert selection. Across three MoE architectures, BASE improves the quality-efficiency tradeoff without retraining. On Qwen3-30B-A3B, it improves average accuracy by 29.5 points over the strongest baseline at comparable throughput under a tight expert budget. At a higher expert budget, it is 60% faster than dense inference while remaining within 0.4 accuracy points.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2026-09-28",
+    "date_source": "https://arxiv.org/abs/2609.36222",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "aux",
+    "path": [
+      "text-llm",
+      "experts",
+      "skip",
+      "EX-BATCH"
+    ],
+    "classification_basis": "REAP已有router×输出幅值与重建误差；ExFold已有固定batch预算与静态能量。BASE增量是token条件能量预测及其与可部署批级选择的结合。",
+    "identifiers": {
+      "arxiv": "2609.36222"
+    }
+  },
+  {
+    "id": "entry:a3ccd55e3cd4c300adef64b4",
+    "title": "MoDES: Accelerating Mixture-of-Experts Multimodal Large Language Models via Dynamic Expert Skipping",
+    "url": "https://arxiv.org/abs/2511.15690",
+    "abstract": "Mixture-of-Experts (MoE) Multimodal large language models (MLLMs) excel at vision-language tasks, but they suffer from high computational inefficiency. To reduce inference overhead, expert skipping methods have been proposed to deactivate redundant experts based on the current input tokens. However, we find that applying these methods--originally designed for unimodal large language models (LLMs)--to MLLMs results in considerable performance degradation. This is primarily because such methods fail to account for the heterogeneous contributions of experts across MoE layers and modality-specific behaviors of tokens within these layers. Motivated by these findings, we propose MoDES, the first training-free framework that adaptively skips experts to enable efficient and accurate MoE MLLM inference. It incorporates a globally-modulated local gating (GMLG) mechanism that integrates global layer-wise importance into local routing probabilities to accurately estimate per-token expert importance. A dual-modality thresholding (DMT) method is then applied, which processes tokens from each modality separately, to derive the skipping schedule. To set the optimal thresholds, we introduce a frontier search algorithm that exploits monotonicity properties, cutting convergence time from several days to a few hours. Extensive experiments for 3 model series across 13 benchmarks demonstrate that MoDES far outperforms previous approaches. For instance, when skipping 88% experts for Qwen3-VL-MoE-30B-A3B-Instruct, the performance boost is up to **10.67%** (97.33% vs. 86.66%). Furthermore, MoDES significantly enhances inference speed, improving the prefilling time by **2.16x** and the decoding time by **1.26x**.",
+    "pool": "core",
+    "source_id": "cvpr",
+    "publication_date": "2026",
+    "first_public_date": "2025-11-19",
+    "date_source": "https://openaccess.thecvf.com/content/CVPR2026/html/Huang_MoDES_Accelerating_Mixture-of-Experts_Multimodal_Large_Language_Models_via_Dynamic_Expert_CVPR_2026_paper.html",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "image-vlm",
+      "experts",
+      "skip",
+      "MX"
+    ],
+    "classification_basis": "离线层重要度×在线router权重，再按模态阈值删专家；二维frontier search控制校准成本。 已有router概率作为局部信号，加上跳过整层导致输出KL变化的全局层重要度；视觉/文本各一阈值。Table4含thresholding、仅层调制、仅双阈值、二者组合的A/B/A+B消融，支持组件贡献；不据此无条件称超加性协同。",
+    "identifiers": {
+      "arxiv": "2511.15690"
+    }
+  },
+  {
+    "id": "arxiv:2511.17885",
+    "title": "FastMMoE: Accelerating Multimodal Large Language Models through Dynamic Expert Activation and Routing-Aware Token Pruning",
+    "url": "https://arxiv.org/abs/2511.17885",
+    "abstract": "Multimodal large language models (MLLMs) have achieved impressive performance, but high-resolution visual inputs result in long sequences of visual tokens and substantial inference latency. Reducing redundant visual tokens is critical to ease computational/memory burdens while preserving performance, enabling MLLM deployment in resource-constrained or latency-sensitive scenarios. Current visual token pruning methods mainly rely on attention-based redundancy analysis and are tailored to dense architectures. We propose Fast Multimodal Mixture-of-Experts (FastMMoE), a training-free acceleration framework for mixture-of-experts (MoE) based MLLMs, developed from a routing analysis perspective. FastMMoE combines two complementary strategies: (i) expert activation reduction for visual tokens to minimize unnecessary expert computation; and (ii) routing-aware token pruning that leverages similarity in routing probability distributions to identify and remove highly redundant visual tokens. Experiments on large-scale MoE-MLLMs such as DeepSeek-VL2 and InternVL3.5 demonstrate that FastMMoE can reduce FLOPs by up to 55.0% while retaining approximately 95.5% of the original performance, consistently outperforming dense-model pruning baselines including FastV and SparseVLM across multiple retention rates.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2025-11-22",
+    "date_source": "https://arxiv.org/abs/2511.17885",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "image-vlm",
+      "experts",
+      "skip",
+      "MX"
+    ],
+    "classification_basis": "视觉token采用更窄Top-K；文本保持原Top-K；再把路由相似性和文本→图像注意力组合为窗口冗余得分，合并/丢弃视觉窗口。",
+    "identifiers": {
+      "arxiv": "2511.17885"
+    }
+  },
+  {
+    "id": "entry:cceb127eb02a4f10733fbb57",
+    "title": "Visual Expert Skipping for MoE-MLLMs via K-Armed Bandit based Expert Estimation",
+    "url": "https://openreview.net/forum?id=ZEWEsIPIyE",
+    "abstract": "Despite great success, existing MoE-MLLMs still suffer from substantial visual expert redundancy, making visual expert skipping a critical solution. However, deriving an effective and fixed skipping policy is still an open problem, mainly due to the exponentially large layer-wise policy space and the dependency between expert allocations across layers. In this paper, we propose a novel and training-free approach for MoE-MLLMs, termed \\emph{K-armed bandit based expert redundancy estimation} (\\textbf{KAB-MoE}). KAB-MoE defines the retained visual expert number at each MoE layer as a discrete action, and then conducts efficient one-shot RL estimations to obtain the layer-action reward matrix. Based on this reward matrix, KAB-MoE can quickly derive the optimal skipping policy that satisfies the predefined computation budgets, \\emph{e.g.}, expert skipping ratio. The obtained skipping policy can be directly applied to MoE-MLLMs for all examples, which not only facilitates high-throughput deployment but also contributes to practical acceleration. Extensive experiments on Kimi-VL-A3B and Qwen3-VL-MoE show that KAB-MoE effectively accelerates MoE-MLLMs while keeping strong multimodal performance, \\emph{e.g.}, retaining 97.09\\% average performance on Kimi-VL-A3B under the skipping ratio of 83\\%. Moreover, KAB-MoE also achieves competitive or superior performance over dynamic expert skipping SOTAs with practical inference speed-up. \\textbf{Our code} is provided in the supplementary materials.",
+    "pool": "core",
+    "source_id": "neurips",
+    "publication_date": "2026",
+    "first_public_date": null,
+    "date_source": "https://openreview.net/forum?id=ZEWEsIPIyE",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "none",
+    "path": [
+      "image-vlm",
+      "experts",
+      "skip",
+      "MX"
+    ],
+    "classification_basis": "把每层保留几个视觉专家视作离散bandit动作，离线估计收益，部署固定层级方案。 与逐token阈值筛选的差别在预算分配与决策粒度：摘要称所有样本共用固定per-layer schedule。reward定义、选择具体哪几个专家、权重归一化均未知；不补猜公式。",
+    "identifiers": {
+      "arxiv": null
+    }
+  },
+  {
+    "id": "arxiv:2601.15370",
+    "title": "Improving MoE Compute Efficiency by Composing Weight and Data Sparsity",
+    "url": "https://arxiv.org/abs/2601.15370",
+    "abstract": "Mixture-of-Experts layers achieve compute efficiency through weight sparsity: each token activates only a subset of experts. Data sparsity, where each expert processes only a subset of tokens, offers a complementary axis. Expert-choice routing implements data sparsity directly but violates causality in autoregressive models, creating train-inference mismatch. We recover data sparsity within causal token-choice MoE by leveraging zero-compute (null) experts within the routing pool. When a token routes to null experts, those slots consume no compute. The standard load balancing objective trains the model to uniformly use all experts (real and null) therefore creating data sparsity in expectation without the causality violations. We evaluate on vision-language model training, where data heterogeneity is pronounced: vision encoders produce many low-information tokens while text tokens are denser. At matched expected FLOPs, composing weight and data sparsity yields a more compute-efficient frontier than weight sparsity alone, with gains in training loss and downstream performance. The model learns implicit modality-aware allocation, routing vision tokens to null experts more aggressively than text, without explicit modality routing.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2026-01-21",
+    "date_source": "https://arxiv.org/abs/2601.15370",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "target",
+    "path": [
+      "image-vlm",
+      "experts",
+      "skip",
+      "MX"
+    ],
+    "classification_basis": "N个真实专家外只学一个null logit，复制成M个槽参与Top-K；只算选中的真实专家。 null输出0；全局load balancing使真实/null槽使用接近目标比例；selected-real权重重新归一化；保留token-choice因果性。不是额外预测器，也不需给每个null副本独立参数；真实专家数随token变化。",
+    "identifiers": {
+      "arxiv": "2601.15370"
+    }
+  },
+  {
+    "id": "arxiv:2609.38823",
+    "title": "DecoMoE: Decoupling Visual Propagation and Expert Computation for Efficient Multimodal MoE Inference",
+    "url": "https://arxiv.org/abs/2609.38823",
+    "abstract": "Multimodal mixture-of-experts (MoE) models combine sparse expert activation with visual-language capabilities, yet their inference remains costly because long visual-token sequences repeatedly incur attention, routing, dispatch, and expert-MLP computation. Existing methods typically compress either the token or expert dimension, leaving redundancy along the other. Our analysis reveals two complementary regularities: the depth required for visual propagation varies across inputs, while text-token routing exhibits concentrated and recurrent expert-importance patterns. Based on these observations, we propose DecoMoE, a two-dimensional structured compression framework that decouples visual propagation from expert computation. The Sample-Adaptive Visual Boundary (SAVB) predicts an input-dependent visual-exit layer at which the visual-token block is removed. The Routing-Calibrated Expert Prefix (RCEP) reorders experts offline using text-token routed mass and, from this predicted exit layer onward, retains at each MoE layer the shortest contiguous prefix covering a target routed-mass fraction. We evaluate DecoMoE on Qwen3-VL-MoE and InternVL3.5-30B-A3B across six benchmarks. On Qwen3-VL-MoE, DecoMoE retains 97.91% of dense-baseline performance while reducing computation from 27.06 to 16.73 TFLOPs and latency from 0.44 to 0.26 seconds, yielding a 1.69x speedup. Code will be available at https://github.com/ShawnTan86/DecoMoE.",
+    "pool": "preprint",
+    "source_id": null,
+    "publication_date": null,
+    "first_public_date": "2026-09-30",
+    "date_source": "https://arxiv.org/abs/2609.38823",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "aux",
+    "path": [
+      "image-vlm",
+      "experts",
+      "skip",
+      "MX"
+    ],
+    "classification_basis": "SAVB预测样本退出层；离线Mean-Mass文本校准排序并同时重排router/expert；在线根据原完整top-k质量选最短前缀，再在前缀内重路由。",
+    "identifiers": {
+      "arxiv": "2609.38823"
+    }
+  },
+  {
+    "id": "entry:8b3d0ccb633136d18256b49d",
+    "title": "CuMo: Scaling Multimodal LLM with Co-Upcycled Mixture-of-Experts",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/ed1d3d4c64dc1b95332a8cde3f2a0bdf-Abstract-Conference.html",
+    "abstract": "Recent advancements in Multimodal Large Language Models (LLMs) have focused primarily on scaling by increasing text-image pair data and enhancing LLMs to improve performance on multimodal tasks. However, these scaling approaches are computationally expensive and overlook the significance of efficiently improving model capabilities from the vision side. Inspired by the successful applications of Mixture-of-Experts (MoE) in LLMs, which improves model scalability during training while keeping inference costs similar to those of smaller models, we propose CuMo, which incorporates Co-upcycled Top-K sparsely-gated Mixture-of-experts blocks into both the vision encoder and the MLP connector, thereby enhancing the multimodal LLMs with neglectable additional activated parameters during inference.CuMo first pre-trains the MLP blocks and then initializes each expert in the MoE block from the pre-trained MLP block during the visual instruction tuning stage, with auxiliary losses to ensure a balanced loading of experts.CuMo outperforms state-of-the-art multimodal LLMs across various VQA and visual-instruction-following benchmarks within each model size group, all while training exclusively on open-sourced datasets.",
+    "pool": "core",
+    "source_id": "neurips",
+    "publication_date": "2024",
+    "first_public_date": null,
+    "date_source": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/ed1d3d4c64dc1b95332a8cde3f2a0bdf-Abstract-Conference.html",
+    "window_evidence": null,
+    "impl": "software",
+    "training": "target",
+    "path": [
+      "image-vlm",
+      "weights",
+      "redesign",
+      "MA"
+    ],
+    "classification_basis": "先训练dense模块，再把MLP复制为专家，视觉encoder和connector同时采用固定Top-K MoE。 三阶段PT→PFT→VIT；在VIT前co-upcycle，VIT联合训练全部参数与router；用load-balancing和z-loss稳定。最终Top-2-in-4为固定K，不含null专家，也不按token减少K。组合包含多分辨率视觉特征及额外数据，不能将完整模型的全部质量提升归因于跳专家或证明超加性协同。",
+    "identifiers": {
+      "arxiv": null
+    }
+  }
+]

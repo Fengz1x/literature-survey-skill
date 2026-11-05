@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "title": "教学样例 · 电池热管理",
+  "scope": "虚构数据，仅检查工作流和页面能否换领域，不用于文献结论。",
+  "start_year": 2024,
+  "cutoff": "2026-11-05",
+  "sources": [
+    {
+      "id": "demo",
+      "label": "教学来源",
+      "url": "https://example.org/",
+      "tracks": "虚构测试轨道",
+      "reason": "测试字段，不是真实期刊推荐。"
+    }
+  ],
+  "taxonomy": [
+    {
+      "id": "stationary",
+      "label": "固定储能",
+      "children": [
+        {
+          "id": "cooling-plate",
+          "label": "冷却板",
+          "children": [
+            {
+              "id": "channels",
+              "label": "流道设计"
+            }
+          ]
+        },
+        {
+          "id": "control",
+          "label": "温度控制",
+          "children": [
+            {
+              "id": "feedback",
+              "label": "反馈调节"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vehicle",
+      "label": "车辆电池",
+      "children": [
+        {
+          "id": "cooling-plate",
+          "label": "冷却板",
+          "children": [
+            {
+              "id": "channels",
+              "label": "流道设计"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "全部论文是明确标识的合成数据。"
+  ],
+  "level_labels": [
+    "场景",
+    "对象",
+    "方法"
+  ],
+  "filter_fields": []
+}

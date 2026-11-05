@@ -1,0 +1,16 @@
+<section id="pageMethodAnalysis" hidden>
+  <div class="pageHeading"><h2 id="analysisTitle">全文拆解</h2><span class="contextFlag" id="analysisCount"></span></div>
+  <p class="caption" id="analysisScope"></p>
+  <nav class="analysisSections" aria-label="全文拆解内容"><button type="button" id="analysisJumpAxes">三轴对照</button><button type="button" id="analysisJumpReadings">逐篇阅读</button><button type="button" id="analysisJumpLineage">研究脉络</button></nav>
+  <section class="blk first" id="analysisAxes"><h3>问题 × 认知 × 方法</h3><figure class="comparisonFigure"><div class="teachingDiagram" id="problemDiagram"></div><figcaption id="problemDiagramCaption"></figcaption><div id="problemDiagramEvidence"></div></figure><p class="caption">贡献组合：相对已有工作的变化，可包含多个标签。</p><div class="card analysisTable"><table id="analysisAxesTable"></table></div>
+    <section class="methodOverview" aria-labelledby="methodOverviewTitle">
+      <h4 id="methodOverviewTitle">方法放在一起看</h4>
+      <figure class="comparisonFigure overviewInput"><div class="teachingDiagram" id="methodCommonInput"></div><figcaption id="methodOverviewScope"></figcaption></figure>
+      <div class="methodOverviewGrid" id="methodOverviewCards"></div>
+    </section>
+    <details class="analysisSupplement"><summary id="disagreementSummary">结论分歧与成立条件</summary><div class="analysisResults conditionComparison"><table id="analysisDisagreements"></table></div></details>
+  </section>
+  <section class="blk" id="analysisReadings"><h3>逐篇阅读</h3><div id="analysisPaperCards"></div></section>
+  <section class="blk" id="analysisLineage"><h3>研究脉络</h3><div class="lineageControls"><label>论文<select id="lineageFocus"></select></label><label>关系<select id="lineageMode"><option value="experiments">实验对照与组合</option><option value="all">加上引用</option></select></label></div><p class="caption" id="analysisGraphNote"></p><div class="figure analysisGraph" id="analysisGraph"></div><p class="caption" id="lineageControlsNote"></p><div class="analysisNode" id="analysisNode"></div><p class="caption" id="lineageCoverage"></p></section>
+  <details class="analysisSources"><summary>来源与阅读范围</summary><div id="analysisSources"></div></details>
+</section>

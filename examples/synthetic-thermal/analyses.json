@@ -1,0 +1,510 @@
+{
+  "SYNTHETIC-CHANNELS": {
+    "id": "SYNTHETIC-CHANNELS",
+    "title": "教学测试 · 冷却板流道设计",
+    "path": [
+      "stationary",
+      "cooling-plate",
+      "channels"
+    ],
+    "scope_note": "全部为明确虚构的界面数据，不代表文献精读、真实作者或科学结论。",
+    "notes": [
+      "本组只用于检验非模型领域的通用flow图与HTML阅读模块。"
+    ],
+    "papers": [
+      {
+        "id": "demo-0",
+        "paper_id": "synthetic:0",
+        "short": "合成流道方案 0",
+        "title": "合成测试记录 0（非真实论文）",
+        "source_url": "https://example.org/paper/0",
+        "pdf_url": null,
+        "local_pdf": null,
+        "pdf_sha256": null,
+        "version": "合成界面测试",
+        "publication": "非真实论文",
+        "graph_label": "合成示意",
+        "authors": [
+          "无真实作者"
+        ],
+        "affiliations": "无真实研究机构",
+        "labels": "合成记录 · 未进行文献精读",
+        "reading_level": "synthetic",
+        "reading_scope": "人工构造界面测试数据，无真实摘要或全文；此标记只让界面显式显示未精读。",
+        "role": "method",
+        "axes": {
+          "problem": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          },
+          "cognition": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          },
+          "method": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          }
+        },
+        "conditions": [],
+        "reading": [],
+        "results": [],
+        "limits": [
+          {
+            "text": "全部为合成数据，不是已发表的科学结果。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demo-1",
+        "paper_id": "synthetic:3",
+        "short": "合成流道方案 1",
+        "title": "合成测试记录 3（非真实论文）",
+        "source_url": "https://example.org/paper/3",
+        "pdf_url": null,
+        "local_pdf": null,
+        "pdf_sha256": null,
+        "version": "合成界面测试",
+        "publication": "非真实论文",
+        "graph_label": "合成示意",
+        "authors": [
+          "无真实作者"
+        ],
+        "affiliations": "无真实研究机构",
+        "labels": "合成记录 · 未进行文献精读",
+        "reading_level": "synthetic",
+        "reading_scope": "人工构造界面测试数据，无真实摘要或全文；此标记只让界面显式显示未精读。",
+        "role": "method",
+        "axes": {
+          "problem": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          },
+          "cognition": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          },
+          "method": {
+            "label": "合成示意",
+            "text": "只演示字段和界面，不作研究结论。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          }
+        },
+        "conditions": [],
+        "reading": [],
+        "results": [],
+        "limits": [
+          {
+            "text": "全部为合成数据，不是已发表的科学结果。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "depth": {
+      "source_pdf_sha256": {
+        "demo-0": null,
+        "demo-1": null
+      },
+      "papers": {
+        "demo-0": {
+          "logic": [
+            {
+              "label": "说明",
+              "text": "非真实研究逻辑，仅用于检查数据结构。"
+            }
+          ],
+          "logic_refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ],
+          "claims": [
+            {
+              "claim": "不提出科学主张",
+              "evidence": "合成数据",
+              "supported": "仅用于界面测试",
+              "remaining": "所有科学结论均未验证",
+              "refs": [
+                {
+                  "url": "https://example.org/",
+                  "locator": "明确虚构的界面测试；非真实原文"
+                }
+              ]
+            }
+          ]
+        },
+        "demo-1": {
+          "logic": [
+            {
+              "label": "说明",
+              "text": "非真实研究逻辑，仅用于检查数据结构。"
+            }
+          ],
+          "logic_refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ],
+          "claims": [
+            {
+              "claim": "不提出科学主张",
+              "evidence": "合成数据",
+              "supported": "仅用于界面测试",
+              "remaining": "所有科学结论均未验证",
+              "refs": [
+                {
+                  "url": "https://example.org/",
+                  "locator": "明确虚构的界面测试；非真实原文"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "mechanisms": [
+        {
+          "paper": "demo-0",
+          "signal": "合成条件",
+          "selection": "串联示意",
+          "replacement": "无真实权重",
+          "overhead": "无实测成本",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ]
+        },
+        {
+          "paper": "demo-1",
+          "signal": "合成条件",
+          "selection": "并联示意",
+          "replacement": "无真实权重",
+          "overhead": "无实测成本",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ]
+        }
+      ],
+      "disagreements": [],
+      "example": {
+        "note": "人工界面示例，非论文输入。",
+        "cases": {
+          "demo-0": {
+            "setting": "人工构造，无实测或文献依据。",
+            "steps": [
+              "读取合成条件",
+              "展示布局",
+              "不比较性能"
+            ],
+            "output": [
+              [
+                "示意",
+                "串联示意",
+                "非实测"
+              ]
+            ],
+            "takeaway": "只检查可读性与跨领域适配。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          },
+          "demo-1": {
+            "setting": "人工构造，无实测或文献依据。",
+            "steps": [
+              "读取合成条件",
+              "展示布局",
+              "不比较性能"
+            ],
+            "output": [
+              [
+                "示意",
+                "并联示意",
+                "非实测"
+              ]
+            ],
+            "takeaway": "只检查可读性与跨领域适配。",
+            "refs": [
+              {
+                "url": "https://example.org/",
+                "locator": "明确虚构的界面测试；非真实原文"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "figures": {
+      "source_pdf_sha256": {
+        "demo-0": null,
+        "demo-1": null
+      },
+      "contributions": {
+        "demo-0": {
+          "label": "合成结构示意",
+          "relative": "非真实贡献或首创判断",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ]
+        },
+        "demo-1": {
+          "label": "合成结构示意",
+          "relative": "非真实贡献或首创判断",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ]
+        }
+      },
+      "common_input": {
+        "title": "合成测试 · 冷却板布局比较",
+        "stages": [
+          "输入：边界条件",
+          "处理：流道布局",
+          "输出：结构示意"
+        ]
+      },
+      "problem": {
+        "kind": "flow",
+        "title": "合成的问题变化示意",
+        "note": "非真实研究问题，只检查图示布局。",
+        "refs": [
+          {
+            "url": "https://example.org/",
+            "locator": "明确虚构的界面测试；非真实原文"
+          }
+        ],
+        "left": {
+          "title": "原始布局",
+          "stages": [
+            "输入条件",
+            "共同任务",
+            "输出示意"
+          ],
+          "rows": [
+            {
+              "token": "输入",
+              "decision": "示意条件",
+              "result": "共同任务"
+            },
+            {
+              "token": "输出",
+              "decision": "符号示意",
+              "result": "非实测结果"
+            }
+          ],
+          "footer": "合成数据，只验证图示与跨领域适配。",
+          "weight_note": "无真实参数或性能结果。"
+        },
+        "right": {
+          "title": "比较布局",
+          "stages": [
+            "输入条件",
+            "两种流道",
+            "输出示意"
+          ],
+          "rows": [
+            {
+              "token": "输入",
+              "decision": "示意条件",
+              "result": "两种流道"
+            },
+            {
+              "token": "输出",
+              "decision": "符号示意",
+              "result": "非实测结果"
+            }
+          ],
+          "footer": "合成数据，只验证图示与跨领域适配。",
+          "weight_note": "无真实参数或性能结果。"
+        }
+      },
+      "methods": {
+        "demo-0": {
+          "kind": "flow",
+          "title": "合成流道方案 0",
+          "comparator": "合成方案之间的结构示意，无实测比较。",
+          "takeaway": "不能据此推断科学效果。",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ],
+          "left": {
+            "title": "共同输入",
+            "stages": [
+              "输入条件",
+              "原始布局",
+              "输出示意"
+            ],
+            "rows": [
+              {
+                "token": "输入",
+                "decision": "示意条件",
+                "result": "原始布局"
+              },
+              {
+                "token": "输出",
+                "decision": "符号示意",
+                "result": "非实测结果"
+              }
+            ],
+            "footer": "合成数据，只验证图示与跨领域适配。",
+            "weight_note": "无真实参数或性能结果。"
+          },
+          "right": {
+            "title": "合成流道方案 0",
+            "stages": [
+              "输入条件",
+              "串联示意",
+              "输出示意"
+            ],
+            "rows": [
+              {
+                "token": "输入",
+                "decision": "示意条件",
+                "result": "串联示意"
+              },
+              {
+                "token": "输出",
+                "decision": "符号示意",
+                "result": "非实测结果"
+              }
+            ],
+            "footer": "合成数据，只验证图示与跨领域适配。",
+            "weight_note": "无真实参数或性能结果。"
+          }
+        },
+        "demo-1": {
+          "kind": "flow",
+          "title": "合成流道方案 1",
+          "comparator": "合成方案之间的结构示意，无实测比较。",
+          "takeaway": "不能据此推断科学效果。",
+          "refs": [
+            {
+              "url": "https://example.org/",
+              "locator": "明确虚构的界面测试；非真实原文"
+            }
+          ],
+          "left": {
+            "title": "共同输入",
+            "stages": [
+              "输入条件",
+              "原始布局",
+              "输出示意"
+            ],
+            "rows": [
+              {
+                "token": "输入",
+                "decision": "示意条件",
+                "result": "原始布局"
+              },
+              {
+                "token": "输出",
+                "decision": "符号示意",
+                "result": "非实测结果"
+              }
+            ],
+            "footer": "合成数据，只验证图示与跨领域适配。",
+            "weight_note": "无真实参数或性能结果。"
+          },
+          "right": {
+            "title": "合成流道方案 1",
+            "stages": [
+              "输入条件",
+              "并联示意",
+              "输出示意"
+            ],
+            "rows": [
+              {
+                "token": "输入",
+                "decision": "示意条件",
+                "result": "并联示意"
+              },
+              {
+                "token": "输出",
+                "decision": "符号示意",
+                "result": "非实测结果"
+              }
+            ],
+            "footer": "合成数据，只验证图示与跨领域适配。",
+            "weight_note": "无真实参数或性能结果。"
+          }
+        }
+      },
+      "teaching_note": "明确虚构的教学图，非论文截图。"
+    },
+    "lineage": {
+      "external_nodes": [],
+      "edges": [],
+      "controls": {
+        "demo-0": "合成的结构对比，无实验对照。",
+        "demo-1": "合成的结构对比，无实验对照。"
+      },
+      "graph_note": "无真实引用关系。",
+      "coverage_note": "这是合成界面数据，没有实施引用检索。"
+    },
+    "is_synthetic": true
+  }
+}
